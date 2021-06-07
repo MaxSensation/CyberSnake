@@ -5,8 +5,10 @@ using UnityEngine.InputSystem;
 public class PlaneController : MonoBehaviour, IDestroyable
 {
     [SerializeField] private float speed;
+    [SerializeField] private float lenghtIncrease;
     [SerializeField] private GridManager gridManager;
-    
+    [SerializeField] private TrailRenderer trailRenderer;
+
     private Vector3 _nextGridPoint;
     private bool _hasNext;
     private Vector3 _turn;
@@ -20,11 +22,9 @@ public class PlaneController : MonoBehaviour, IDestroyable
 
     private void IncreaseTrailLenght(GameObject g)
     {
-        if (g == gameObject)
-        {
-            // Increase Size of trailrenderer
-            print("Picked up Battery and increasing the size");
-        }
+        if (g != gameObject) return;
+        trailRenderer.time += lenghtIncrease;
+        print("Picked up Battery and increasing the size");
     }
 
     private void Update()

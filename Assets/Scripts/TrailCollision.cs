@@ -46,7 +46,8 @@ public class TrailCollision : MonoBehaviour
               var hit = Physics.Linecast(firstPos, _trailPositions[i + 1], out RaycastHit hitInfo);
               if (hit)
               {
-                  Debug.Log("hit: " + hitInfo.collider.gameObject.name);
+                  var destroyable = hitInfo.collider.GetComponent<IDestroyable>();
+                  destroyable?.Kill();
               }
             }
         }
