@@ -1,7 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Plane : MonoBehaviour
+public class PlaneController : MonoBehaviour, IDestroyable
 {
     [SerializeField] private float speed;
     [SerializeField] private GridManager gridManager;
@@ -14,16 +15,27 @@ public class Plane : MonoBehaviour
     private void Start()
     {
         _gridSize = gridManager.GetGridSize();
+        Battery.onBatteryPickupEvent += IncreaseTrailLenght;
+    }
+
+    private void IncreaseTrailLenght(GameObject g)
+    {
+        if (g == gameObject)
+        {
+            // Increase Size of trailrenderer
+            print("Picked up Battery and increasing the size");
+        }
     }
 
     private void Update()
     {
-        Move();
+        AddForwardMovement();
         CheckForNextTurn();
     }
 
     public void Control(InputAction.CallbackContext context)
     {
+        if (!context.started) return;
         if (context.ReadValue<Vector2>() == Vector2.left)
             _turn = new Vector3(0f, -90.0f, 0f);
         else if (context.ReadValue<Vector2>() == Vector2.right)
@@ -34,6 +46,16 @@ public class Plane : MonoBehaviour
             _turn = new Vector3(90f, 0f, 0f);
         if (_hasNext) return;
         WaitForTurn();
+    }
+    
+    public void RotateLeft(InputAction.CallbackContext context)
+    {
+        if (context.performed) transform.Rotate(0f, 0f, 90f);
+    }
+    
+    public void RotateRight(InputAction.CallbackContext context)
+    {
+        if (context.performed) transform.Rotate(0f, 0f, -90f);
     }
     
     private void WaitForTurn()
@@ -49,14 +71,16 @@ public class Plane : MonoBehaviour
         _hasNext = false;
     }
 
-    private void Move()
+    private void AddForwardMovement()
     {
         transform.position += transform.forward * (speed * Time.deltaTime);
     }
 
-    private void OnDrawGizmos()
+    public void Kill()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawCube(_nextGridPoint, Vector3.one);
+        // Add Explosion Effect
+        // Add UI GameOver
+        print("GameOver!");
+        gameObject.SetActive(false);
     }
 }
