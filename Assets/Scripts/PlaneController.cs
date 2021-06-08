@@ -1,22 +1,26 @@
-using System;
+using MLAPI;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlaneController : MonoBehaviour, IDestroyable
 {
     [SerializeField] private float speed;
     [SerializeField] private float lenghtIncrease;
-    [SerializeField] private GridManager gridManager;
     [SerializeField] private TrailRenderer trailRenderer;
 
+    private GridManager _gridManager;
+    private NetworkObject _networkObject;
     private Vector3 _nextGridPoint;
     private bool _hasNext;
+    private bool _hasSetTarget;
     private Vector3 _turn;
     private float _gridSize;
-
+    
     private void Start()
     {
-        _gridSize = gridManager.GetGridSize();
+        
+        _networkObject = GetComponent<NetworkObject>();
         Battery.onBatteryPickupEvent += IncreaseTrailLenght;
     }
 
@@ -26,11 +30,25 @@ public class PlaneController : MonoBehaviour, IDestroyable
         trailRenderer.time += lenghtIncrease;
         print("Picked up Battery and increasing the size");
     }
-
+    
     private void Update()
     {
-        AddForwardMovement();
-        CheckForNextTurn();
+        if (_networkObject.IsLocalPlayer && !_hasSetTarget)
+        {
+            if (SceneManager.GetActiveScene().name == "Game")
+            {
+                _gridManager = FindObjectOfType<GridManager>(); 
+                _gridSize = _gridManager.GetGridSize();
+                FindObjectOfType<CameraFollower>().SetTarget(transform);
+                GetComponent<PlayerInput>().enabled = true;
+                _hasSetTarget = true;
+            }
+        }
+        else
+        {
+            AddForwardMovement();
+            CheckForNextTurn();   
+        }
     }
 
     public void Control(InputAction.CallbackContext context)
@@ -60,7 +78,7 @@ public class PlaneController : MonoBehaviour, IDestroyable
     
     private void WaitForTurn()
     {
-        _nextGridPoint = gridManager.GetPointOnGrid(transform.position + transform.forward * _gridSize);
+        _nextGridPoint = _gridManager.GetPointOnGrid(transform.position + transform.forward * _gridSize);
         _hasNext = true;
     }
     
