@@ -98,7 +98,7 @@ public class PlaneController : MonoBehaviour, IDestroyable
     {
         // Add Explosion Effect
         // Add UI GameOver
-        print("GameOver!");
-        gameObject.SetActive(false);
+        //print("GameOver!");
+        //gameObject.SetActive(false);
     }
 }
