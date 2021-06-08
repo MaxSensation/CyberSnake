@@ -26,7 +26,7 @@ public class MenuManager : MonoBehaviour
     private void ApprovalCheck(byte[] connectionData, ulong clientId, NetworkManager.ConnectionApprovedDelegate callback)
     {
         ulong? prefabHash = NetworkSpawnManager.GetPrefabHashFromGenerator("Plane");
-        callback(true, prefabHash, true, Vector3.zero, Quaternion.identity);
+        callback(true, prefabHash, true, Vector3.zero + Vector3.left * 50, Quaternion.identity);
     }
 
     public void StartGame()
