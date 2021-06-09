@@ -19,28 +19,30 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 
     public void Start()
     {
-        if (IsServer)
-        {
-            Battery.onBatteryPickupEvent += playerId => IncreaseTrailLenghtServerRpc(playerId);   
+        if(IsServer){
+            Battery.onBatteryPickupEvent += playerId => IncreaseTrailLenghtServerRpc(playerId);
         }
     }
 
     [ServerRpc]
     private void IncreaseTrailLenghtServerRpc(ulong playerID, ServerRpcParams serverRpcParams = default)
     {
-        print(GetComponent<NetworkObject>().NetworkObjectId);
-        if (GetComponent<NetworkObject>().NetworkObjectId != playerID) return;
-        trailRenderer.time += lenghtIncrease;
-        print("Server: Battery Picked up");
-        IncreaseTrailLenghtClientRpc(playerID, trailRenderer.time);
+        IncreaseTrailLenghtClientRpc(playerID, NetworkManager.Singleton.ConnectedClients[playerID].PlayerObject.GetComponent<PlaneController>().IncreaseTrailLenght());
     }
-    
+
+    private float IncreaseTrailLenght()
+    {
+        print("Server trail lenght updated...");
+        trailRenderer.time += lenghtIncrease;
+        return trailRenderer.time;
+    }
+
     [ClientRpc]
     private void IncreaseTrailLenghtClientRpc(ulong playerID, float time, ClientRpcParams clientRpcParams = default)
     {
         if (GetComponent<NetworkObject>().NetworkObjectId != playerID) return;
         trailRenderer.time = time;
-        print("Client: Battery Picked up");
+        print("Client trail lenght updated...");
     }
 
     private void Update()
