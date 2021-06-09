@@ -9,6 +9,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 {
     [SerializeField] private float speed;
     [SerializeField] private TrailRenderer trailRenderer;
+    [SerializeField] private MeshRenderer ship;
     private NetworkVariableColor _color = new NetworkVariableColor(new NetworkVariableSettings{WritePermission = NetworkVariablePermission.ServerOnly}, new Color(0,0,1));
     private NetworkVariableBool _alive = new NetworkVariableBool(new NetworkVariableSettings{WritePermission = NetworkVariablePermission.ServerOnly}, true);
     private GridManager _gridManager;
@@ -55,6 +56,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
     {
         if (IsServer) _color.Value = color;
         trailRenderer.material.SetColor("Glow_color", _color.Value);
+        ship.materials[8].SetColor("_EmissionColor", _color.Value*40);
     }
 
     public void Control(InputAction.CallbackContext context)
