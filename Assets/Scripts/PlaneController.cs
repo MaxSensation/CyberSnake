@@ -11,7 +11,6 @@ public class PlaneController : NetworkBehaviour, IDestroyable
     [SerializeField] private TrailRenderer trailRenderer;
 
     private GridManager _gridManager;
-    private NetworkObject _networkObject;
     private Vector3 _nextGridPoint;
     private bool _hasNext;
     private bool _hasSetTarget;
@@ -20,9 +19,10 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 
     public void Start()
     {
-        
-        _networkObject = GetComponent<NetworkObject>();
-        Battery.onBatteryPickupEvent += playerId => IncreaseTrailLenghtServerRpc(playerId);
+        if (IsServer)
+        {
+            Battery.onBatteryPickupEvent += playerId => IncreaseTrailLenghtServerRpc(playerId);   
+        }
     }
 
     [ServerRpc]
@@ -44,7 +44,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 
     private void Update()
     {
-        if (_networkObject.IsLocalPlayer && !_hasSetTarget)
+        if (IsLocalPlayer && !_hasSetTarget)
         {
             if (SceneManager.GetActiveScene().name == "Game")
             {
