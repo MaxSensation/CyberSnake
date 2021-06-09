@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MLAPI;
 using UnityEngine;
 
 public class BatterySpawner : MonoBehaviour
@@ -12,6 +13,7 @@ public class BatterySpawner : MonoBehaviour
 
     private void Start()
     {
+        if (!NetworkManager.Singleton.IsServer) return;
         SpawnAll();
         Battery.onBatteryPickupEvent += g => Spawn();
     }
