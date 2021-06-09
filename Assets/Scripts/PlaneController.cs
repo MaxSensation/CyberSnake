@@ -31,14 +31,14 @@ public class PlaneController : MonoBehaviour, IDestroyable
         if (g != gameObject) return;
         trailRenderer.time += lenghtIncrease;
         print("Server: Battery Picked up");
-        IncreaseTrailLenghtClientRpc(g);
+        IncreaseTrailLenghtClientRpc(g, trailRenderer.time);
     }
 
     [ClientRpc]
-    private void IncreaseTrailLenghtClientRpc(GameObject g)
+    private void IncreaseTrailLenghtClientRpc(GameObject g, float time)
     {
-        if (g != gameObject) return;
-        trailRenderer.time += lenghtIncrease;
+        if (g != gameObject || NetworkManager.Singleton.IsServer) return;
+        trailRenderer.time = time;
         print("Client: Battery Picked up");
     }
 
