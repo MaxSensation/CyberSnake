@@ -26,7 +26,7 @@ public class TrailCollision : MonoBehaviour
             AddTrailPositions();
             _timer = 0;
         }
-        if (Time.time - _currentTime >= _startUpTime)
+        if (_timerStarted && Time.time - _currentTime >= _startUpTime)
         {
             _trailRenderer.emitting = true;
         }

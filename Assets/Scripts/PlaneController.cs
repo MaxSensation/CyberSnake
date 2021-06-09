@@ -88,7 +88,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 
     public void Kill()
     {
-        if (_hasStarted)
+        if (_hasStarted && IsServer)
         {
             print("Dead");
             _alive.Value = false;   
