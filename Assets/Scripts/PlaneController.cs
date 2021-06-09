@@ -22,7 +22,6 @@ public class PlaneController : NetworkBehaviour, IDestroyable
     private bool _hasSetTarget;
     private Vector3 _turn;
     private float _gridSize;
-    private bool _isReseting;
 
     private void Start()
     {
@@ -32,7 +31,6 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 
     private void Reset()
     {
-        _isReseting = true;
         if (IsServer) _alive.Value = true;
         trailRenderer.emitting = false;
         trailRenderer.Clear();
@@ -40,15 +38,12 @@ public class PlaneController : NetworkBehaviour, IDestroyable
         transform.rotation = quaternion.identity;
         _hasNext = false;
         _hasdied = false;
+        _hasSetTarget = false;
         ship.gameObject.SetActive(true);
-        if(IsLocalPlayer)
-            FindObjectOfType<CameraFollower>().SetTarget(transform);
-        _isReseting = false;
     }
 
     private void Update()
     {
-        if (_isReseting) return;
         if (IsLocalPlayer && _alive.Value)
         {
             if (!_hasSetTarget)
