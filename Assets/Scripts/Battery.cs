@@ -1,22 +1,24 @@
 ﻿using System;
 using MLAPI;
+using MLAPI.Messaging;
 using UnityEngine;
 
-public class Battery : MonoBehaviour, IPickable
+public class Battery : NetworkBehaviour, IPickable
 {
-    public static Action<GameObject> onBatteryPickupEvent;
-    public void Pickup(GameObject g)
+    public static Action<ulong> onBatteryPickupEvent;
+    
+    [ServerRpc]
+    public void PickupServerRpc(ulong playerId, ServerRpcParams serverRpcParams = default)
     {
-        onBatteryPickupEvent?.Invoke(g);
+        onBatteryPickupEvent?.Invoke(playerId);
         Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        var p = other.GetComponent<PlaneController>();
-        if (p != null && NetworkManager.Singleton.IsServer)
+        if (other.CompareTag("Player") && IsServer)
         {
-            Pickup(p.gameObject);
+            PickupServerRpc(other.GetComponent<NetworkObject>().NetworkObjectId);
         }
     }
 }

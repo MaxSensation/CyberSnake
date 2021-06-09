@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using MLAPI;
 using UnityEngine;
 
-public class BatterySpawner : MonoBehaviour
+public class BatterySpawner : NetworkBehaviour
 {
     [SerializeField] private int totalBatteriesOnMap;
     [SerializeField] private GameObject batteryPrefab;
@@ -11,9 +11,9 @@ public class BatterySpawner : MonoBehaviour
     
     private List<GameObject> _batteries = new List<GameObject>();
 
-    private void Start()
+    public void Start()
     {
-        if (!NetworkManager.Singleton.IsServer) return;
+        if (!IsServer) return;
         SpawnAll();
         Battery.onBatteryPickupEvent += g => Spawn();
     }
@@ -24,14 +24,15 @@ public class BatterySpawner : MonoBehaviour
         {
             Spawn();
         }
-        foreach(var battery in _batteries)
-        {
-            battery.GetComponent<NetworkObject>().Spawn();
-        }
     }
 
     private void Spawn()
     {
-        _batteries.Add(Instantiate(batteryPrefab, gridManager.GetPointOnGrid(new Vector3(Random.Range(-worldSize / 2, worldSize / 2), Random.Range(-worldSize / 2, worldSize / 2), Random.Range(-worldSize / 2, worldSize / 2))), Quaternion.identity));
+        var battery = Instantiate(batteryPrefab,
+            gridManager.GetPointOnGrid(new Vector3(Random.Range(-worldSize / 2, worldSize / 2),
+                Random.Range(-worldSize / 2, worldSize / 2), Random.Range(-worldSize / 2, worldSize / 2))),
+            Quaternion.identity);
+        _batteries.Add(battery);
+        battery.GetComponent<NetworkObject>().Spawn();
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class PlaneController : MonoBehaviour, IDestroyable
+public class PlaneController : NetworkBehaviour, IDestroyable
 {
     [SerializeField] private float speed;
     [SerializeField] private float lenghtIncrease;
@@ -17,27 +17,27 @@ public class PlaneController : MonoBehaviour, IDestroyable
     private bool _hasSetTarget;
     private Vector3 _turn;
     private float _gridSize;
-    
-    private void Start()
+
+    public void Start()
     {
         
         _networkObject = GetComponent<NetworkObject>();
-        Battery.onBatteryPickupEvent += IncreaseTrailLenghtServerRpc;
+        Battery.onBatteryPickupEvent += playerId => IncreaseTrailLenghtServerRpc(playerId);
     }
 
     [ServerRpc]
-    private void IncreaseTrailLenghtServerRpc(GameObject g)
+    private void IncreaseTrailLenghtServerRpc(ulong playerID, ServerRpcParams serverRpcParams = default)
     {
-        if (g != gameObject) return;
+        if (NetworkObjectId != playerID) return;
         trailRenderer.time += lenghtIncrease;
         print("Server: Battery Picked up");
-        IncreaseTrailLenghtClientRpc(g, trailRenderer.time);
+        IncreaseTrailLenghtClientRpc(playerID, trailRenderer.time);
     }
     
     [ClientRpc]
-    private void IncreaseTrailLenghtClientRpc(GameObject g, float time)
+    private void IncreaseTrailLenghtClientRpc(ulong playerID, float time, ClientRpcParams clientRpcParams = default)
     {
-        if (g != gameObject || NetworkManager.Singleton.IsServer) return;
+        if (NetworkObjectId != playerID) return;
         trailRenderer.time = time;
         print("Client: Battery Picked up");
     }
