@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using MLAPI.Messaging;
 
 public interface IPickable
 {
-    public void Pickup(GameObject gameObject);
+    public void PickupServerRpc(ulong playerId, ServerRpcParams serverRpcParams = default);
 }
