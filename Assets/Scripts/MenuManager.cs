@@ -1,3 +1,4 @@
+using System;
 using MLAPI;
 using MLAPI.SceneManagement;
 using MLAPI.Spawning;
@@ -7,6 +8,7 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
+    public static Action onStart;
     [SerializeField] private GameObject hostButton;
     [SerializeField] private GameObject clientButton;
     [SerializeField] private GameObject inputFeild;
@@ -32,6 +34,7 @@ public class MenuManager : MonoBehaviour
     public void StartGame()
     {
         NetworkSceneManager.SwitchScene("Game");
+        onStart?.Invoke();
     }
 
     public void StartClient()

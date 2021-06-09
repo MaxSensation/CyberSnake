@@ -19,6 +19,7 @@ public class TrailCollision : NetworkBehaviour
     {
         _trailRenderer = GetComponent<TrailRenderer>();
         _trailPositions = new List<Vector3>();
+        MenuManager.onStart += StartTrail;
     }
 
     void Update()

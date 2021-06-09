@@ -31,7 +31,6 @@ public class PlaneController : NetworkBehaviour, IDestroyable
                     FindObjectOfType<CameraFollower>().SetTarget(transform);
                     GetComponent<PlayerInput>().enabled = true;
                     _hasSetTarget = true;
-                    trailCollision.StartTrail();
                     _hasStarted = true;
                 }
             }
