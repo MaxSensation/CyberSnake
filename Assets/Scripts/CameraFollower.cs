@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CameraFollower : MonoBehaviour
@@ -8,6 +9,12 @@ public class CameraFollower : MonoBehaviour
     [SerializeField] public Transform spectatorTarget;
 
     private Transform _target;
+
+    private void Start()
+    {
+        PlaneController.onLocalPlayerKilled += SetTarget;
+    }
+
     private void Update()
     {
         if (_target == null) return;
