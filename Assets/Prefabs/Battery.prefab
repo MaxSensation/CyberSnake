@@ -65,7 +65,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: a6f5f9c1232e32442950f2315b6447dc, type: 2}
-  - {fileID: 2100000, guid: 46ddf29c9b9d6464087f713a08690877, type: 2}
+  - {fileID: 2100000, guid: a0ae7aefed3e4af4cbd15d4813a51c8a, type: 2}
   - {fileID: 2100000, guid: 61afa01ba21218e43a4fbd84d6ca1720, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b54a71fa07124a2986a8b72f8bdd0310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickupEffectGameObject: {fileID: 8505633593765164927, guid: 81f6e38feebfb9f48a1c1e38daf24590, type: 3}
 --- !u!136 &5166719306536930368
 CapsuleCollider:
   m_ObjectHideFlags: 0

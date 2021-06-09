@@ -40,5 +40,5 @@ Material:
     - Boolean: 0
     - Tiling: 0.09
     m_Colors:
-    - GridColor: {r: 0, g: 5.656854, b: 5.656854, a: 0}
+    - GridColor: {r: 0, g: 2.433572, b: 2.433572, a: 0}
   m_BuildTextureStacks: []
