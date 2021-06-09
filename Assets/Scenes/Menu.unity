@@ -1031,6 +1031,8 @@ MonoBehaviour:
     - Game
     AllowRuntimeSceneChanges: 0
     NetworkPrefabs:
+    - Prefab: {fileID: 8505633593765164927, guid: 81f6e38feebfb9f48a1c1e38daf24590, type: 3}
+      PlayerPrefab: 0
     - Prefab: {fileID: 8265331334273786192, guid: 2388f956d841d8e4eac277e9af8e3529, type: 3}
       PlayerPrefab: 0
     - Prefab: {fileID: 6346901602530923635, guid: f883d844bc54545449b94eb5def552b8, type: 3}
