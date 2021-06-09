@@ -1,5 +1,6 @@
 //Andreas Berzelius
 
+using System;
 using System.Collections.Generic;
 using MLAPI;
 using MLAPI.NetworkVariable;
@@ -17,9 +18,21 @@ public class TrailCollision : NetworkBehaviour
     private NetworkVariableBool _trailOn = new NetworkVariableBool(new NetworkVariableSettings{ WritePermission = NetworkVariablePermission.ServerOnly}, false);
     void Start()
     {
+        InGameMenu.onRestartEvent += Reset;
         _trailRenderer = GetComponent<TrailRenderer>();
         _trailPositions = new List<Vector3>();
         MenuManager.onStart += StartTrail;
+    }
+
+    private void Reset()
+    {
+        if (IsServer)
+        {
+            _trailOn.Value = false;   
+        }
+        _trailRenderer.emitting = false;
+        _timerStarted = false;
+        StartTrail();
     }
 
     void Update()

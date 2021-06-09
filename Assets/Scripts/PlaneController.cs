@@ -1,12 +1,14 @@
 using System;
 using MLAPI;
 using MLAPI.NetworkVariable;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PlaneController : NetworkBehaviour, IDestroyable
 {
+    public static Action onLocalPlayerKilled;
     [SerializeField] private float speed;
     [SerializeField] private TrailRenderer trailRenderer;
     [SerializeField] private MeshRenderer ship;
@@ -16,6 +18,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
     private GridManager _gridManager;
     private Vector3 _nextGridPoint;
     private bool _hasNext;
+    private bool _hasdied;
     private bool _hasSetTarget;
     private Vector3 _turn;
     private float _gridSize;
@@ -23,6 +26,21 @@ public class PlaneController : NetworkBehaviour, IDestroyable
     private void Start()
     {
         SetColor(FindObjectOfType<ColorManager>().GetColor());
+        InGameMenu.onRestartEvent += Reset;
+    }
+
+    private void Reset()
+    {
+        transform.position = Vector3.zero;
+        transform.rotation = quaternion.identity;
+        _hasNext = false;
+        _hasdied = false;
+        FindObjectOfType<CameraFollower>().SetTarget(transform);
+        trailRenderer.Clear();
+        if (IsServer)
+        {
+            _alive.Value = true;
+        }
     }
 
     private void Update()
@@ -47,9 +65,11 @@ public class PlaneController : NetworkBehaviour, IDestroyable
             }
         }
 
-        if (IsLocalPlayer && !_alive.Value)
+        if (IsLocalPlayer && !_alive.Value && !_hasdied)
         {
             FindObjectOfType<CameraFollower>().SetTarget();
+            onLocalPlayerKilled?.Invoke();
+            _hasdied = true;
         }
     }
 

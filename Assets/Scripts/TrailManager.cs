@@ -9,9 +9,18 @@ public class TrailManager : NetworkBehaviour
     private NetworkVariableFloat _trailLenght = new NetworkVariableFloat(new NetworkVariableSettings{ WritePermission = NetworkVariablePermission.ServerOnly}, 1f);
     private void Start()
     {
+        InGameMenu.onRestartEvent += Restart;
         if (IsServer)
         {
             Battery.onBatteryPickupEvent += IncreaseLength;   
+        }
+    }
+
+    private void Restart()
+    {
+        if (IsServer)
+        {
+            _trailLenght.Value = 1;
         }
     }
 
