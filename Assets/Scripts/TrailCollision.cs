@@ -26,7 +26,7 @@ public class TrailCollision : MonoBehaviour
             AddTrailPositions();
             _timer = 0;
         }
-        if (_timerStarted && Time.time - _currentTime >= _startUpTime)
+        if (Time.time - _currentTime >= _startUpTime)
         {
             _trailRenderer.emitting = true;
         }
@@ -59,8 +59,11 @@ public class TrailCollision : MonoBehaviour
               var hit = Physics.Linecast(firstPos, _trailPositions[i + 1], out RaycastHit hitInfo);
               if (hit)
               {
-                  var destroyable = hitInfo.collider.GetComponent<IDestroyable>();
-                  destroyable?.Kill();
+                  if (_timerStarted)
+                  {
+                      var destroyable = hitInfo.collider.GetComponent<IDestroyable>();
+                      destroyable?.Kill();   
+                  }
               }
             }
         }

@@ -24,7 +24,10 @@ public class TrailManager : NetworkBehaviour
     {
         if (playerID == NetworkObjectId)
         {
-            _trailLenght.Value += 1;
+            if (IsServer)
+            {
+                _trailLenght.Value += 1;   
+            }
         }
     }
 }
