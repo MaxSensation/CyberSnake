@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b54a71fa07124a2986a8b72f8bdd0310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickupEffectGameObject: {fileID: 8505633593765164927, guid: 81f6e38feebfb9f48a1c1e38daf24590, type: 3}
 --- !u!136 &5166719306536930368
 CapsuleCollider:
   m_ObjectHideFlags: 0
