@@ -1,7 +1,5 @@
-using System;
 using MLAPI;
 using MLAPI.NetworkVariable;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -9,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class PlaneController : NetworkBehaviour, IDestroyable
 {
     [SerializeField] private float speed;
+    [SerializeField] private TrailCollision trailCollision;
     
     private NetworkVariableBool _alive = new NetworkVariableBool(new NetworkVariableSettings{WritePermission = NetworkVariablePermission.ServerOnly}, true);
     private GridManager _gridManager;
@@ -31,6 +30,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
                     FindObjectOfType<CameraFollower>().SetTarget(transform);
                     GetComponent<PlayerInput>().enabled = true;
                     _hasSetTarget = true;
+                    trailCollision.StartTrail();
                 }
             }
             else
