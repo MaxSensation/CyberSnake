@@ -1,4 +1,5 @@
 using MLAPI;
+using MLAPI.Messaging;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -24,11 +25,21 @@ public class PlaneController : MonoBehaviour, IDestroyable
         Battery.onBatteryPickupEvent += IncreaseTrailLenghtServerRpc;
     }
 
+    [ServerRpc]
     private void IncreaseTrailLenghtServerRpc(GameObject g)
     {
         if (g != gameObject) return;
         trailRenderer.time += lenghtIncrease;
-        print("Server: Battery Pickeup");
+        print("Server: Battery Picked up");
+        IncreaseTrailLenghtClientRpc(g);
+    }
+
+    [ClientRpc]
+    private void IncreaseTrailLenghtClientRpc(GameObject g)
+    {
+        if (g != gameObject) return;
+        trailRenderer.time += lenghtIncrease;
+        print("Client: Battery Picked up");
     }
 
     private void Update()
