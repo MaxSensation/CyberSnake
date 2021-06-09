@@ -36,12 +36,15 @@ public class PlaneController : NetworkBehaviour, IDestroyable
         trailRenderer.time += lenghtIncrease;
         return trailRenderer.time;
     }
+    private void SetTailLenght(float time)
+    {
+        trailRenderer.time = time;
+    }
 
     [ClientRpc]
     private void IncreaseTrailLenghtClientRpc(ulong playerID, float time, ClientRpcParams clientRpcParams = default)
     {
-        if (GetComponent<NetworkObject>().NetworkObjectId != playerID) return;
-        trailRenderer.time = time;
+        NetworkManager.Singleton.ConnectedClients[playerID].PlayerObject.GetComponent<PlaneController>().SetTailLenght(time);
         print("Client trail lenght updated...");
     }
 
