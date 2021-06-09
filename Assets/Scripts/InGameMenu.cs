@@ -1,5 +1,6 @@
 using System;
 using MLAPI;
+using MLAPI.Messaging;
 using UnityEngine;
 
 public class InGameMenu : NetworkBehaviour
@@ -29,6 +30,14 @@ public class InGameMenu : NetworkBehaviour
     }
 
     public void RestartGame()
+    {
+        DisableMenu();
+        onRestartEvent?.Invoke();
+        RestartGameClientRpc();
+    }
+
+    [ClientRpc]
+    private void RestartGameClientRpc()
     {
         DisableMenu();
         onRestartEvent?.Invoke();
