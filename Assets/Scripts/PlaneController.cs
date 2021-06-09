@@ -44,6 +44,11 @@ public class PlaneController : NetworkBehaviour, IDestroyable
                 CheckForNextTurn();
             }
         }
+
+        if (IsLocalPlayer && !_alive.Value)
+        {
+            FindObjectOfType<CameraFollower>().SetTarget();
+        }
     }
 
     private void SetColor(Color color)
@@ -97,8 +102,6 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 
     public void Kill()
     {
-        if(IsLocalPlayer)
-            FindObjectOfType<CameraFollower>().SetTarget();
         if (IsServer)
         {
             print("Dead");
