@@ -28,6 +28,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
     [ServerRpc]
     private void IncreaseTrailLenghtServerRpc(ulong playerID, ServerRpcParams serverRpcParams = default)
     {
+        print(NetworkObjectId);
         if (NetworkObjectId != playerID) return;
         trailRenderer.time += lenghtIncrease;
         print("Server: Battery Picked up");
