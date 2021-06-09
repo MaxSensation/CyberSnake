@@ -75,11 +75,11 @@ public class PlaneController : NetworkBehaviour, IDestroyable
             _hasdied = true;
         }
 
-        if (IsLocalPlayer && !_alive.Value)
+        if (SceneManager.GetActiveScene().name == "Game" && IsLocalPlayer && !_alive.Value)
         {
             _cameraFollower.SetTarget();
         }
-        else if(IsLocalPlayer && _alive.Value)
+        else if(SceneManager.GetActiveScene().name == "Game" && IsLocalPlayer && _alive.Value)
         {
             _cameraFollower.SetTarget(transform);
         }
