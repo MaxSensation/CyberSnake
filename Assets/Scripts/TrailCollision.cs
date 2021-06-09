@@ -30,6 +30,7 @@ public class TrailCollision : NetworkBehaviour
         {
             _trailOn.Value = false;   
         }
+        _trailPositions = new List<Vector3>();
         _trailRenderer.emitting = false;
         _timerStarted = false;
         StartTrail();
