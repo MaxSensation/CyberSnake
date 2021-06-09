@@ -510,6 +510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 40
+  trailRenderer: {fileID: 99576342635696473}
 --- !u!114 &6346901602530923645
 MonoBehaviour:
   m_ObjectHideFlags: 0

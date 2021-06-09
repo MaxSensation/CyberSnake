@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class PlaneController : NetworkBehaviour, IDestroyable
 {
     [SerializeField] private float speed;
+    [SerializeField] private TrailRenderer trailRenderer;
     private NetworkVariableColor _color = new NetworkVariableColor(new NetworkVariableSettings{WritePermission = NetworkVariablePermission.ServerOnly}, new Color(0,0,1));
     private NetworkVariableBool _alive = new NetworkVariableBool(new NetworkVariableSettings{WritePermission = NetworkVariablePermission.ServerOnly}, true);
     private GridManager _gridManager;
@@ -48,6 +49,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
     private void SetColor(Color color)
     {
         if (IsServer) _color.Value = color;
+        trailRenderer.material.SetColor("Glow_color", _color.Value);
     }
 
     public void Control(InputAction.CallbackContext context)
