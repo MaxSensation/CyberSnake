@@ -28,8 +28,8 @@ public class PlaneController : NetworkBehaviour, IDestroyable
     [ServerRpc]
     private void IncreaseTrailLenghtServerRpc(ulong playerID, ServerRpcParams serverRpcParams = default)
     {
-        print(NetworkObjectId);
-        if (NetworkObjectId != playerID) return;
+        print(GetComponent<NetworkObject>().NetworkObjectId);
+        if (GetComponent<NetworkObject>().NetworkObjectId != playerID) return;
         trailRenderer.time += lenghtIncrease;
         print("Server: Battery Picked up");
         IncreaseTrailLenghtClientRpc(playerID, trailRenderer.time);
@@ -38,7 +38,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
     [ClientRpc]
     private void IncreaseTrailLenghtClientRpc(ulong playerID, float time, ClientRpcParams clientRpcParams = default)
     {
-        if (NetworkObjectId != playerID) return;
+        if (GetComponent<NetworkObject>().NetworkObjectId != playerID) return;
         trailRenderer.time = time;
         print("Client: Battery Picked up");
     }
