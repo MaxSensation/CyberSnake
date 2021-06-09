@@ -11,6 +11,7 @@ public class InGameMenu : NetworkBehaviour
     [SerializeField] private GameObject restart;
     private void Start()
     {
+        PlaneController.onLocalPlayerStart += DisableMenu;
         PlaneController.onLocalPlayerKilled += EnableMenu;
     }
 

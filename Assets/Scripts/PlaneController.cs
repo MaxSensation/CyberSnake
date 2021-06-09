@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class PlaneController : NetworkBehaviour, IDestroyable
 {
     public static Action onLocalPlayerKilled;
+    public static Action onLocalPlayerStart;
     [SerializeField] private float speed;
     [SerializeField] private TrailRenderer trailRenderer;
     [SerializeField] private MeshRenderer ship;
@@ -55,6 +56,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
                     FindObjectOfType<CameraFollower>().SetTarget(transform);
                     GetComponent<PlayerInput>().enabled = true;
                     _hasSetTarget = true;
+                    onLocalPlayerStart?.Invoke();
                 }
             }
             else
