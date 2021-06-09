@@ -12,6 +12,7 @@ public class Test : MonoBehaviour
     [ServerRpc]
     private void TestServerRpc()
     {
+        if (!NetworkManager.Singleton.IsServer) return;
         print("Hello Server");
         TestClientRpc();
     }
