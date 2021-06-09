@@ -5,6 +5,7 @@ public class CameraFollower : MonoBehaviour
     [SerializeField] private float smoothPosition;
     [SerializeField] private float smoothRotation;
     [SerializeField] private Vector3 positionOffset;
+    [SerializeField] public Transform spectatorTarget;
 
     private Transform _target;
     private void Update()
@@ -17,5 +18,10 @@ public class CameraFollower : MonoBehaviour
     public void SetTarget(Transform newTarget)
     {
         _target = newTarget;
+    }
+    
+    public void SetTarget()
+    {
+        _target = spectatorTarget;
     }
 }

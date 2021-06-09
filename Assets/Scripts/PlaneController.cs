@@ -8,7 +8,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 {
     [SerializeField] private float speed;
     [SerializeField] private TrailCollision trailCollision;
-    
+
     private NetworkVariableBool _alive = new NetworkVariableBool(new NetworkVariableSettings{WritePermission = NetworkVariablePermission.ServerOnly}, true);
     private GridManager _gridManager;
     private Vector3 _nextGridPoint;
@@ -85,6 +85,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 
     public void Kill()
     {
+	    FindObjectOfType<CameraFollower>().SetTarget();
         if (IsServer)
         {
             print("Dead");
