@@ -29,7 +29,6 @@ public class PlaneController : NetworkBehaviour, IDestroyable
     {
         SetColor(FindObjectOfType<ColorManager>().GetColor());
         InGameMenu.onRestartEvent += Reset;
-        _cameraFollower = FindObjectOfType<CameraFollower>();
     }
 
     private void Reset()
@@ -53,9 +52,10 @@ public class PlaneController : NetworkBehaviour, IDestroyable
             {
                 if (SceneManager.GetActiveScene().name == "Game")
                 {
+                    _cameraFollower = FindObjectOfType<CameraFollower>();
                     _gridManager = FindObjectOfType<GridManager>();
                     _gridSize = _gridManager.GetGridSize();
-                    FindObjectOfType<CameraFollower>().SetTarget(transform);
+                    _cameraFollower.SetTarget(transform);
                     GetComponent<PlayerInput>().enabled = true;
                     _hasSetTarget = true;
                     onLocalPlayerStart?.Invoke();
