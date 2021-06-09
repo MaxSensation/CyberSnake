@@ -97,7 +97,8 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 
     public void Kill()
     {
-        if(IsLocalPlayer && NetworkManager.Singleton.ConnectedClients[NetworkObjectId].PlayerObject.gameObject == gameObject) FindObjectOfType<CameraFollower>().SetTarget();
+        if(IsLocalPlayer)
+            FindObjectOfType<CameraFollower>().SetTarget();
         if (IsServer)
         {
             print("Dead");
