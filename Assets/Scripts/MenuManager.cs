@@ -13,6 +13,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject clientButton;
     [SerializeField] private GameObject inputFeild;
     [SerializeField] private GameObject startButton;
+    [SerializeField] private GameObject postJoinText;
     
     [SerializeField] private TMP_InputField inputField;
     public void StartHost()
@@ -48,5 +49,6 @@ public class MenuManager : MonoBehaviour
         hostButton.SetActive(false);
         clientButton.SetActive(false);
         inputFeild.SetActive(false);
+        postJoinText.SetActive(true);
     }
 }
