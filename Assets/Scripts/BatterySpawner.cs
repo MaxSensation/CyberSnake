@@ -29,5 +29,9 @@ public class BatterySpawner : MonoBehaviour
     private void Spawn()
     {
         _batteries.Add(Instantiate(batteryPrefab, gridManager.GetPointOnGrid(new Vector3(Random.Range(-worldSize / 2, worldSize / 2), Random.Range(-worldSize / 2, worldSize / 2), Random.Range(-worldSize / 2, worldSize / 2))), Quaternion.identity));
+        foreach(var battery in _batteries)
+        {
+            battery.GetComponent<NetworkObject>().Spawn();
+        }
     }
 }
