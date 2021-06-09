@@ -1,4 +1,5 @@
 ﻿using System;
+using MLAPI;
 using UnityEngine;
 
 public class Battery : MonoBehaviour, IPickable
@@ -13,7 +14,7 @@ public class Battery : MonoBehaviour, IPickable
     private void OnTriggerEnter(Collider other)
     {
         var p = other.GetComponent<PlaneController>();
-        if (p != null)
+        if (p != null && NetworkManager.Singleton.IsServer)
         {
             Pickup(p.gameObject);
         }

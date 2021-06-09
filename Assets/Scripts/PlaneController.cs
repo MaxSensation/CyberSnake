@@ -21,16 +21,16 @@ public class PlaneController : MonoBehaviour, IDestroyable
     {
         
         _networkObject = GetComponent<NetworkObject>();
-        Battery.onBatteryPickupEvent += IncreaseTrailLenght;
+        Battery.onBatteryPickupEvent += IncreaseTrailLenghtServerRpc;
     }
 
-    private void IncreaseTrailLenght(GameObject g)
+    private void IncreaseTrailLenghtServerRpc(GameObject g)
     {
         if (g != gameObject) return;
         trailRenderer.time += lenghtIncrease;
-        print("Picked up Battery and increasing the size");
+        print("Server: Battery Pickeup");
     }
-    
+
     private void Update()
     {
         if (_networkObject.IsLocalPlayer && !_hasSetTarget)
