@@ -38,7 +38,7 @@ Material:
     m_Ints: []
     m_Floats:
     - Line_Thickness: 0.9
-    - Tiling: 2
+    - Tiling: 0.09
     m_Colors:
     - GridColor: {r: 0, g: 5.656854, b: 5.656854, a: 0}
     - Tiling: {r: 2, g: 2, b: 0, a: 0}
