@@ -33,7 +33,7 @@ public class PlaneController : MonoBehaviour, IDestroyable
         print("Server: Battery Picked up");
         IncreaseTrailLenghtClientRpc(g, trailRenderer.time);
     }
-
+    
     [ClientRpc]
     private void IncreaseTrailLenghtClientRpc(GameObject g, float time)
     {
