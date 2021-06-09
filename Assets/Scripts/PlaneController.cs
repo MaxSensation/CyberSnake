@@ -16,6 +16,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
     private bool _hasSetTarget;
     private Vector3 _turn;
     private float _gridSize;
+    private bool _hasStarted;
 
     private void Update()
     {
@@ -31,6 +32,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
                     GetComponent<PlayerInput>().enabled = true;
                     _hasSetTarget = true;
                     trailCollision.StartTrail();
+                    _hasStarted = true;
                 }
             }
             else
@@ -86,7 +88,10 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 
     public void Kill()
     {
-        print("Dead");
-        _alive.Value = false;
+        if (_hasStarted)
+        {
+            print("Dead");
+            _alive.Value = false;   
+        }
     }
 }
