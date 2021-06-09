@@ -57,6 +57,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
         if (IsServer) _color.Value = color;
         trailRenderer.material.SetColor("Glow_color", _color.Value);
         ship.materials[8].SetColor("_EmissionColor", _color.Value*40);
+        ship.materials[7].SetColor("_EmissionColor", _color.Value*40);
     }
 
     public void Control(InputAction.CallbackContext context)
