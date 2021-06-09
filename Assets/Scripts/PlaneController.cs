@@ -70,7 +70,6 @@ public class PlaneController : NetworkBehaviour, IDestroyable
             FindObjectOfType<CameraFollower>().SetTarget();
             onLocalPlayerKilled?.Invoke();
             _hasdied = true;
-            ship.gameObject.SetActive(false);
         }
     }
 
@@ -127,6 +126,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 
     public void Kill()
     {
+        ship.gameObject.SetActive(false);
         if (IsServer)
         {
             print("Dead");

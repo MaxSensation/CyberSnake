@@ -28,7 +28,7 @@ public class TrailCollision : NetworkBehaviour
     {
         if (IsServer)
         {
-            _trailOn.Value = false;   
+            _trailOn.Value = false;
         }
         _trailPositions = new List<Vector3>();
         _trailRenderer.emitting = false;
