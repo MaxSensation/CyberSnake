@@ -23,11 +23,13 @@ public class PlaneController : NetworkBehaviour, IDestroyable
     private bool _hasSetTarget;
     private Vector3 _turn;
     private float _gridSize;
-
+    private CameraFollower _cameraFollower;
+    
     private void Start()
     {
         SetColor(FindObjectOfType<ColorManager>().GetColor());
         InGameMenu.onRestartEvent += Reset;
+        _cameraFollower = FindObjectOfType<CameraFollower>();
     }
 
     private void Reset()
@@ -68,9 +70,18 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 
         if (IsLocalPlayer && !_alive.Value && !_hasdied)
         {
-            FindObjectOfType<CameraFollower>().SetTarget();
+            _cameraFollower.SetTarget();
             onLocalPlayerKilled?.Invoke();
             _hasdied = true;
+        }
+
+        if (IsLocalPlayer && !_alive.Value)
+        {
+            _cameraFollower.SetTarget();
+        }
+        else if(IsLocalPlayer && _alive.Value)
+        {
+            _cameraFollower.SetTarget(transform);
         }
     }
 
