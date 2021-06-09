@@ -1,9 +1,11 @@
 //Andreas Berzelius
 
 using System.Collections.Generic;
+using MLAPI;
+using MLAPI.NetworkVariable;
 using UnityEngine;
 
-public class TrailCollision : MonoBehaviour
+public class TrailCollision : NetworkBehaviour
 {
     private TrailRenderer _trailRenderer;
     private List<Vector3> _trailPositions;
@@ -12,6 +14,7 @@ public class TrailCollision : MonoBehaviour
     private float _startUpTime = 5f;
     private float _currentTime;
     private bool _timerStarted;
+    private NetworkVariableBool _trailOn = new NetworkVariableBool(new NetworkVariableSettings{ WritePermission = NetworkVariablePermission.ServerOnly}, false);
     void Start()
     {
         _trailRenderer = GetComponent<TrailRenderer>();
@@ -27,6 +30,14 @@ public class TrailCollision : MonoBehaviour
             _timer = 0;
         }
         if (_timerStarted && Time.time - _currentTime >= _startUpTime)
+        {
+            if (IsServer)
+            {
+                _trailOn.Value = true;
+            }
+        }
+
+        if (_trailOn.Value)
         {
             _trailRenderer.emitting = true;
         }
@@ -59,7 +70,7 @@ public class TrailCollision : MonoBehaviour
               var hit = Physics.Linecast(firstPos, _trailPositions[i + 1], out RaycastHit hitInfo);
               if (hit)
               {
-                  if (_timerStarted)
+                  if (_trailOn.Value)
                   {
                       var destroyable = hitInfo.collider.GetComponent<IDestroyable>();
                       destroyable?.Kill();   
