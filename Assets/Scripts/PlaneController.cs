@@ -1,5 +1,4 @@
 using MLAPI;
-using MLAPI.Messaging;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -7,8 +6,6 @@ using UnityEngine.SceneManagement;
 public class PlaneController : NetworkBehaviour, IDestroyable
 {
     [SerializeField] private float speed;
-    [SerializeField] private float lenghtIncrease;
-    [SerializeField] private TrailRenderer trailRenderer;
 
     private GridManager _gridManager;
     private Vector3 _nextGridPoint;
@@ -17,54 +14,26 @@ public class PlaneController : NetworkBehaviour, IDestroyable
     private Vector3 _turn;
     private float _gridSize;
 
-    public void Start()
-    {
-        if(IsServer){
-            Battery.onBatteryPickupEvent += playerId => IncreaseTrailLenghtServerRpc(playerId);
-        }
-    }
-
-    [ServerRpc]
-    private void IncreaseTrailLenghtServerRpc(ulong playerID, ServerRpcParams serverRpcParams = default)
-    {
-        IncreaseTrailLenghtClientRpc(playerID, NetworkManager.Singleton.ConnectedClients[playerID].PlayerObject.GetComponent<PlaneController>().IncreaseTrailLenght());
-    }
-
-    private float IncreaseTrailLenght()
-    {
-        print("Server trail lenght updated...");
-        trailRenderer.time += lenghtIncrease;
-        return trailRenderer.time;
-    }
-    private void SetTailLenght(float time)
-    {
-        trailRenderer.time = time;
-    }
-
-    [ClientRpc]
-    private void IncreaseTrailLenghtClientRpc(ulong playerID, float time, ClientRpcParams clientRpcParams = default)
-    {
-        NetworkManager.Singleton.ConnectedClients[playerID].PlayerObject.GetComponent<PlaneController>().SetTailLenght(time);
-        print("Client trail lenght updated...");
-    }
-
     private void Update()
     {
-        if (IsLocalPlayer && !_hasSetTarget)
+        if (IsLocalPlayer)
         {
-            if (SceneManager.GetActiveScene().name == "Game")
+            if (!_hasSetTarget)
             {
-                _gridManager = FindObjectOfType<GridManager>(); 
-                _gridSize = _gridManager.GetGridSize();
-                FindObjectOfType<CameraFollower>().SetTarget(transform);
-                GetComponent<PlayerInput>().enabled = true;
-                _hasSetTarget = true;
+                if (SceneManager.GetActiveScene().name == "Game")
+                {
+                    _gridManager = FindObjectOfType<GridManager>();
+                    _gridSize = _gridManager.GetGridSize();
+                    FindObjectOfType<CameraFollower>().SetTarget(transform);
+                    GetComponent<PlayerInput>().enabled = true;
+                    _hasSetTarget = true;
+                }
             }
-        }
-        else
-        {
-            AddForwardMovement();
-            CheckForNextTurn();   
+            else
+            {
+                AddForwardMovement();
+                CheckForNextTurn();
+            }
         }
     }
 
