@@ -31,6 +31,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 
     private void Reset()
     {
+        if (IsServer) _alive.Value = true;
         trailRenderer.emitting = false;
         trailRenderer.Clear();
         transform.position = Vector3.zero;
@@ -40,10 +41,6 @@ public class PlaneController : NetworkBehaviour, IDestroyable
         ship.gameObject.SetActive(true);
         if(IsLocalPlayer)
             FindObjectOfType<CameraFollower>().SetTarget(transform);
-        if (IsServer)
-        {
-            _alive.Value = true;
-        }
     }
 
     private void Update()
