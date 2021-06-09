@@ -392,7 +392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalBatteriesOnMap: 10
   batteryPrefab: {fileID: 8265331334273786192, guid: 2388f956d841d8e4eac277e9af8e3529, type: 3}
-  worldSize: 400
+  worldSize: 300
   gridManager: {fileID: 810563354}
 --- !u!1 &1244424431
 GameObject:

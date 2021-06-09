@@ -142,7 +142,7 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
-  m_Emitting: 1
+  m_Emitting: 0
 --- !u!1 &6346901601163917747
 GameObject:
   m_ObjectHideFlags: 0

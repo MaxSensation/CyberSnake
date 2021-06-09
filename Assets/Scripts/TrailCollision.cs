@@ -9,6 +9,9 @@ public class TrailCollision : MonoBehaviour
     private List<Vector3> _trailPositions;
     private int _trailSegments;
     private float _timer;
+    private float _startUpTime = 5f;
+    private float _currentTime;
+    private bool _timerStarted;
     void Start()
     {
         _trailRenderer = GetComponent<TrailRenderer>();
@@ -22,6 +25,16 @@ public class TrailCollision : MonoBehaviour
         {
             AddTrailPositions();
             _timer = 0;
+        }
+        if (!_timerStarted)
+        {
+            _currentTime = Time.time;
+            _timerStarted = true;
+        }
+
+        if (Time.time - _currentTime >= _startUpTime)
+        {
+            _trailRenderer.emitting = true;
         }
     }
 

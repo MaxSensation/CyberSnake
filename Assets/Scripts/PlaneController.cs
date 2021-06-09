@@ -1,4 +1,7 @@
+using System;
 using MLAPI;
+using MLAPI.NetworkVariable;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -6,7 +9,8 @@ using UnityEngine.SceneManagement;
 public class PlaneController : NetworkBehaviour, IDestroyable
 {
     [SerializeField] private float speed;
-
+    
+    private NetworkVariableBool _alive = new NetworkVariableBool(new NetworkVariableSettings{WritePermission = NetworkVariablePermission.ServerOnly}, true);
     private GridManager _gridManager;
     private Vector3 _nextGridPoint;
     private bool _hasNext;
@@ -16,7 +20,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 
     private void Update()
     {
-        if (IsLocalPlayer)
+        if (IsLocalPlayer && _alive.Value)
         {
             if (!_hasSetTarget)
             {
@@ -82,9 +86,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 
     public void Kill()
     {
-        // Add Explosion Effect
-        // Add UI GameOver
-        //print("GameOver!");
-        //gameObject.SetActive(false);
+        print("Dead");
+        _alive.Value = false;
     }
 }

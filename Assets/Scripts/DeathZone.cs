@@ -1,10 +1,14 @@
+using MLAPI;
 using UnityEngine;
 
-public class DeathZone : MonoBehaviour
+public class DeathZone : NetworkBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        var destroyable = other.GetComponent<IDestroyable>();
-        destroyable?.Kill();
+        if (IsServer)
+        {
+            var destroyable = other.GetComponent<IDestroyable>();
+            destroyable?.Kill();   
+        }
     }
 }
