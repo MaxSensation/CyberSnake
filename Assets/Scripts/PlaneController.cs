@@ -1,3 +1,4 @@
+using System;
 using MLAPI;
 using MLAPI.NetworkVariable;
 using UnityEngine;
@@ -7,8 +8,7 @@ using UnityEngine.SceneManagement;
 public class PlaneController : NetworkBehaviour, IDestroyable
 {
     [SerializeField] private float speed;
-    [SerializeField] private TrailCollision trailCollision;
-
+    private NetworkVariableColor _color = new NetworkVariableColor(new NetworkVariableSettings{WritePermission = NetworkVariablePermission.ServerOnly}, new Color(0,0,1));
     private NetworkVariableBool _alive = new NetworkVariableBool(new NetworkVariableSettings{WritePermission = NetworkVariablePermission.ServerOnly}, true);
     private GridManager _gridManager;
     private Vector3 _nextGridPoint;
@@ -16,6 +16,11 @@ public class PlaneController : NetworkBehaviour, IDestroyable
     private bool _hasSetTarget;
     private Vector3 _turn;
     private float _gridSize;
+
+    private void Start()
+    {
+        SetColor(FindObjectOfType<ColorManager>().GetColor());
+    }
 
     private void Update()
     {
@@ -38,6 +43,11 @@ public class PlaneController : NetworkBehaviour, IDestroyable
                 CheckForNextTurn();
             }
         }
+    }
+
+    private void SetColor(Color color)
+    {
+        if (IsServer) _color.Value = color;
     }
 
     public void Control(InputAction.CallbackContext context)
