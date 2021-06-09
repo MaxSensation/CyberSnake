@@ -10,6 +10,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
     [SerializeField] private float speed;
     [SerializeField] private TrailRenderer trailRenderer;
     [SerializeField] private MeshRenderer ship;
+    [SerializeField] private GameObject explosionParticles;
     private NetworkVariableColor _color = new NetworkVariableColor(new NetworkVariableSettings{WritePermission = NetworkVariablePermission.ServerOnly}, new Color(0,0,1));
     private NetworkVariableBool _alive = new NetworkVariableBool(new NetworkVariableSettings{WritePermission = NetworkVariablePermission.ServerOnly}, true);
     private GridManager _gridManager;
@@ -108,7 +109,9 @@ public class PlaneController : NetworkBehaviour, IDestroyable
         if (IsServer)
         {
             print("Dead");
-            _alive.Value = false;   
+            _alive.Value = false;
+            GameObject go = Instantiate(explosionParticles, transform.position, Quaternion.identity);
+            go.GetComponent<NetworkObject>().Spawn();
         }
     }
 }

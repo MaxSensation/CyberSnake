@@ -512,6 +512,7 @@ MonoBehaviour:
   speed: 40
   trailRenderer: {fileID: 99576342635696473}
   ship: {fileID: 6881458532664300415}
+  explosionParticles: {fileID: 1329845292236604, guid: 9bba9cf244c53c5439505dfc96fdd11c, type: 3}
 --- !u!114 &6346901602530923645
 MonoBehaviour:
   m_ObjectHideFlags: 0
