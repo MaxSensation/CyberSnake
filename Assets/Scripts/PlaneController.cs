@@ -31,12 +31,15 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 
     private void Reset()
     {
+        trailRenderer.emitting = false;
+        trailRenderer.Clear();
         transform.position = Vector3.zero;
         transform.rotation = quaternion.identity;
         _hasNext = false;
         _hasdied = false;
-        FindObjectOfType<CameraFollower>().SetTarget(transform);
-        trailRenderer.Clear();
+        ship.gameObject.SetActive(true);
+        if(IsLocalPlayer)
+            FindObjectOfType<CameraFollower>().SetTarget(transform);
         if (IsServer)
         {
             _alive.Value = true;
@@ -70,6 +73,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
             FindObjectOfType<CameraFollower>().SetTarget();
             onLocalPlayerKilled?.Invoke();
             _hasdied = true;
+            ship.gameObject.SetActive(false);
         }
     }
 
