@@ -16,7 +16,6 @@ public class PlaneController : NetworkBehaviour, IDestroyable
     private bool _hasSetTarget;
     private Vector3 _turn;
     private float _gridSize;
-    private bool _hasStarted;
 
     private void Update()
     {
@@ -31,7 +30,6 @@ public class PlaneController : NetworkBehaviour, IDestroyable
                     FindObjectOfType<CameraFollower>().SetTarget(transform);
                     GetComponent<PlayerInput>().enabled = true;
                     _hasSetTarget = true;
-                    _hasStarted = true;
                 }
             }
             else
@@ -87,7 +85,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 
     public void Kill()
     {
-        if (_hasStarted && IsServer)
+        if (IsServer)
         {
             print("Dead");
             _alive.Value = false;   
