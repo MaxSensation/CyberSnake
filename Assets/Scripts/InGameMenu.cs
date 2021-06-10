@@ -2,6 +2,7 @@ using System;
 using MLAPI;
 using MLAPI.Messaging;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InGameMenu : NetworkBehaviour
 {
@@ -27,7 +28,17 @@ public class InGameMenu : NetworkBehaviour
 
     public void ExitGame()
     {
-        NetworkManager.Singleton.StopClient();
+        if (IsClient)
+        {
+            NetworkManager.Singleton.StopClient();   
+        }
+        if (IsServer)
+        {
+            foreach (var client in NetworkManager.Singleton.ConnectedClients)
+            {
+                NetworkManager.Singleton.DisconnectClient(client.Key);
+            }
+        }
     }
 
     public void RestartGame()

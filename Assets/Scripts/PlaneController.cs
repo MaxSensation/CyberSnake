@@ -30,7 +30,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
         SetColor(FindObjectOfType<ColorManager>().GetColor());
         InGameMenu.onRestartEvent += Reset;
     }
-
+    
     private void Reset()
     {
         if (IsServer) _alive.Value = true;
