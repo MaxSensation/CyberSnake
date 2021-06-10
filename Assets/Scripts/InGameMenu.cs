@@ -35,7 +35,6 @@ public class InGameMenu : NetworkBehaviour
 
     private void Update()
     {
-        print(_alivePlayers.Value);
         CheckForWin();
     }
 
