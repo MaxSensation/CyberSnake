@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class PlaneController : NetworkBehaviour, IDestroyable
 {
+    public static Action onPlayerWon;
+    public static Action onPlayerKilled;
     public static Action onLocalPlayerKilled;
     public static Action onLocalPlayerStart;
     [SerializeField] private float speed;
@@ -24,6 +26,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
     private Vector3 _turn;
     private float _gridSize;
     private CameraFollower _cameraFollower;
+    private bool _winner;
     
     private void Start()
     {
@@ -33,7 +36,10 @@ public class PlaneController : NetworkBehaviour, IDestroyable
     
     private void Reset()
     {
-        if (IsServer) _alive.Value = true;
+        if (IsServer)
+        {
+            _alive.Value = true;
+        }
         trailRenderer.emitting = false;
         trailRenderer.Clear();
         transform.position = Vector3.zero;
@@ -52,6 +58,7 @@ public class PlaneController : NetworkBehaviour, IDestroyable
             {
                 if (SceneManager.GetActiveScene().name == "Game")
                 {
+                    _winner = false;
                     _cameraFollower = FindObjectOfType<CameraFollower>();
                     _gridManager = FindObjectOfType<GridManager>();
                     _gridSize = _gridManager.GetGridSize();
@@ -138,13 +145,17 @@ public class PlaneController : NetworkBehaviour, IDestroyable
 
     public void Kill()
     {
-        ship.gameObject.SetActive(false);
-        if (IsServer)
+        if (_alive.Value)
         {
-            print("Dead");
-            _alive.Value = false;
-            GameObject go = Instantiate(explosionParticles, transform.position, Quaternion.identity);
-            go.GetComponent<NetworkObject>().Spawn();
+            ship.gameObject.SetActive(false);
+            if (IsServer)
+            {
+                print("Dead");
+                _alive.Value = false;
+                GameObject go = Instantiate(explosionParticles, transform.position, Quaternion.identity);
+                go.GetComponent<NetworkObject>().Spawn();
+                onPlayerKilled?.Invoke();                
+            }
         }
     }
 }
