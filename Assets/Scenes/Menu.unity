@@ -2153,8 +2153,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -91, y: -3.2}
-  m_SizeDelta: {x: 182, y: 50}
+  m_AnchoredPosition: {x: -133.30786, y: -3.2}
+  m_SizeDelta: {x: 266.6157, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1372411254
 MonoBehaviour:
@@ -2189,7 +2189,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Music
+  m_Text: Hype Music
 --- !u!222 &1372411255
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3245,7 +3245,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5, y: 0}
+  m_AnchoredPosition: {x: -4.9999847, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1955172369
